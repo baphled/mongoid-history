@@ -76,6 +76,12 @@ describe Mongoid::History do
 
   describe "track" do
     describe "on creation" do
+      it "can add a note to a given version" do
+        @comment.update_attributes :title => 'A better title', :modifier_note => "Computer says no!"
+        @comment.modifier_note.should eql "Computer says no!"
+        @comment.history_tracks.last.note.should eql "Computer says no!"
+      end
+
       it "should have one history track in comment" do
         @comment.history_tracks.count.should == 1
       end
