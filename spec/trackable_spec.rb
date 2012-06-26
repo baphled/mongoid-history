@@ -35,10 +35,12 @@ describe Mongoid::History::Trackable do
         :modifier_field =>  :modifier,
         :version_field  =>  :version,
         :scope          =>  :my_model,
-        :except         =>  ["created_at", "updated_at", "version", "modifier_id", "_id", "id"],
+        :except         =>  ["created_at", "updated_at", "version", "modifier_note", "modifier_id", "_id", "id"],
+        :note_field     =>  :modifier_note,
         :track_create   =>  false,
         :track_update   =>  true,
         :track_destroy  =>  false,
+        :version_notes  =>  true,
       }
     end
 

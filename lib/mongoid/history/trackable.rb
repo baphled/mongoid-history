@@ -10,10 +10,12 @@ module Mongoid::History
           :except         =>  [:created_at, :updated_at],
           :modifier_field =>  :modifier,
           :version_field  =>  :version,
+          :note_field     =>  :modifier_note,
           :scope          =>  model_name,
           :track_create   =>  false,
           :track_update   =>  true,
           :track_destroy  =>  false,
+          :version_notes  =>  true,
         }
 
         options = default_options.merge(options)
@@ -22,6 +24,7 @@ module Mongoid::History
         # manually ensure _id, id, version will not be tracked in history
         options[:except] = [options[:except]] unless options[:except].is_a? Array
         options[:except] << options[:version_field]
+        options[:except] << options[:note_field]
         options[:except] << "#{options[:modifier_field]}_id".to_sym
         options[:except] += [:_id, :id]
         options[:except] = options[:except].map(&:to_s).flatten.compact.uniq
@@ -34,7 +37,7 @@ module Mongoid::History
         end
 
         field options[:version_field].to_sym, :type => Integer, :default => 0
-        field :modifier_note, :type => String
+        field :modifier_note, :type => String if options[:version_notes]
         referenced_in options[:modifier_field].to_sym, :class_name => Mongoid::History.modifier_class_name
 
         include MyInstanceMethods
