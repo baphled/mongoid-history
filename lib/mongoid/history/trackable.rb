@@ -33,7 +33,7 @@ module Mongoid::History
           options[:on] = options[:on].map(&:to_s).flatten.uniq
         end
 
-        field options[:version_field].to_sym, :type => Integer
+        field options[:version_field].to_sym, :type => Integer, :default => 0
         referenced_in options[:modifier_field].to_sym, :class_name => Mongoid::History.modifier_class_name
 
         include MyInstanceMethods

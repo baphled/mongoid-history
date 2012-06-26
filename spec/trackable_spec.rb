@@ -46,6 +46,10 @@ describe Mongoid::History::Trackable do
       Mongoid::History.trackable_class_options = nil
     end
 
+    it "version_field should not be nil as default" do
+      MyModel.new.version.should eql 0
+    end
+
     it "should have default options" do
       Mongoid::History.trackable_class_options[:my_model].should == @expected_option
     end
